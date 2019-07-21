@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Syntaxis Hue App - Home</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.3.1.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <a class="navbar-brand" href="#">Syntaxis Hue App</a>
+       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+             <li class="nav-item active">
+                <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+             </li>
+          </ul>
+       </div>
+    </nav>
+
+  <div class="jumbotron jumbotron-fluid text-center">
+       <h1 class="display-4">Syntaxis Hue App</h1>
+       <p class="lead">This website can be used to manage the Hue lights flow animation</p>
+  </div>
+    <div class="container">
+		<div class="row">
+			<div class="mx-auto">
+      			<form>
+        			<div class="form-group">
+						Color 1: <input class="jscolor {closable:true,closeText:'Close'}" value="00ff00" name="color1">
+					</div>
+					<div class="form-group">
+						Color 2: <input class="jscolor {closable:true,closeText:'Close'}" value="00ffdd" name="color2">
+					</div>
+					<div class="form-group">
+						Color 3: <input class="jscolor {closable:true,closeText:'Close'}" value="D4FF00" name="color3">
+					</div>
+		  			<div class="row justify-content-around">
+			  			<div class="col-6 text-center">
+        					<button type="submit" class="btn btn-primary m-1">Submit</button>
+			  			</div>
+			  			<div class="col-6 text-center">
+							<a class="btn btn-primary m-1" href="/hue/off">Submit</a>
+			  			</div>
+		  			</div>
+      			</form>
+			</div>
+		</div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed --> 
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap-4.3.1.js"></script>
+	  
+	  
+	  <!-- Extra js files -->
+	  <script src="js/jscolor.js"></script>
+  </body>
+</html>

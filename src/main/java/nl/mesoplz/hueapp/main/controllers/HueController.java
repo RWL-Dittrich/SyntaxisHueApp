@@ -2,32 +2,35 @@ package nl.mesoplz.hueapp.main.controllers;
 
 import nl.mesoplz.hueapp.main.lights.LightsThread;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
 
 @Controller
 @RequestMapping("/hue")
 public class HueController {
 
-    public LightsThread lightsThread = new LightsThread();
+    public static LightsThread lightsThread = new LightsThread();
 
-    @GetMapping("/on")
-    @ResponseBody
-    public String turnOn() {
+    @PostMapping("/color")
+    public String colorPost(String color1, String color2, String color3) {
+        System.out.println(color1 + " | " + color2 + " | " + color3);
+        Color c1 = Color.decode(color1);
+        Color c2 = Color.decode(color2);
+        Color c3 = Color.decode(color3);
+
         try {
-            lightsThread.start();
+            lightsThread.start(c1, c2, c3);
         } catch (Exception e) {
-            return "Thread already running!";
+            return "redirect:/";
         }
-        return "Turned Hue thread on";
+        return "redirect:/";
     }
 
     @GetMapping("/off")
-    @ResponseBody
     public String turnOff() {
         lightsThread.stop();
-        return "Turned Hue thread off";
+        return "redirect:/";
     }
 }
