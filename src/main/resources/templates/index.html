@@ -12,7 +12,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-       <a class="navbar-brand" href="#">Syntaxis Hue App</a>
+       <a class="navbar-brand" href="/">Syntaxis Hue App</a>
        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span>
        </button>
@@ -34,32 +34,53 @@
 			<div class="mx-auto">
       			<form action="/hue/color" target="_self" method="POST">
         			<div class="form-group">
-						Color 1: <input class="jscolor {closable:true,closeText:'Close', hash:true}" th:value="${value1}" name="color1">
+                        <label for="color1">Color 1:</label>
+						<input class="float-right jscolor {closable:true,closeText:'Close', hash:true}" th:value="${color1}" name="color1" id="color1">
                     </div>
 					<div class="form-group">
-						Color 2: <input class="jscolor {closable:true,closeText:'Close', hash:true}" th:value="${value2}" name="color2">
+                        <label for="color2">Color 2:</label>
+                        <input class="float-right jscolor {closable:true,closeText:'Close', hash:true}" th:value="${color2}" name="color2" id="color2">
                     </div>
 					<div class="form-group">
-						Color 3: <input class="jscolor {closable:true,closeText:'Close', hash:true}" th:value="${value3}" name="color3">
+                        <label for="color3">Color 3:</label>
+						<input class="float-right jscolor {closable:true,closeText:'Close', hash:true}" th:value="${color3}" name="color3" id="color3">
 					</div>
                     <div class="form-group">
-
+                      <label for="min-delay">min-delay:</label>
+                      <input class="float-right" type="number" name="minDelay" id="min-delay" th:value="${minDelay}" oninput="updateAlert();">
                     </div>
                     <div class="form-group">
-
+                      <label for="max-delay">max-delay:</label>
+                      <input class="float-right" type="number" name="maxDelay" id="max-delay" th:value="${maxDelay}" oninput="updateAlert();">
                     </div>
+					<div class="row d-none" id="delayAlert">
+						<div class="alert w-100 alert-danger" role="alert">
+							min-delay cannot be &gt;&#61; max-delay!
+						</div>
+					</div>
+					<div class="row d-none" id="emptyAlert">
+						<div class="alert w-100 alert-danger" role="alert">
+							min-delay or max-delay cannot be empty!
+						</div>
+					</div>
 		  			<div class="row justify-content-around">
 			  			<div class="col-6 text-center">
-        					<button type="submit" class="btn btn-primary m-1">Submit</button>
+        					<button type="submit" class="btn w-75 btn-primary m-1" id="submitBtn">Submit</button>
 			  			</div>
 			  			<div class="col-6 text-center">
-							<a class="btn btn-danger m-1" href="/hue/off">Off</a>
+							<a class="btn w-75 btn-danger m-1" href="/hue/off">Off</a>
 			  			</div>
 		  			</div>
       			</form>
 			</div>
 		</div>
     </div>
+
+	<footer class="footer page-footer blue">
+		<div class="container">
+    		<span class="text-white">&copy; Robin Dittrich<br>462270</span>
+		</div>
+    </footer>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
     <script src="/js/jquery-3.3.1.min.js"></script>
 
@@ -70,6 +91,45 @@
 	  
 	  <!-- Extra js files -->
 	  <script src="/js/jscolor.js"></script>
+	  
+	  <script>
+	  	function updateAlert() {
+			var minDelay = parseInt(document.getElementById("min-delay").value);
+			var maxDelay = parseInt(document.getElementById("max-delay").value);
+			
+			if (minDelay >= maxDelay || minDelay < 1 || maxDelay < 1) {
+				if(document.getElementById("delayAlert").classList.contains("d-none")) {
+					document.getElementById("delayAlert").classList.remove("d-none");
+				}
+				if(!(document.getElementById("submitBtn").disabled)) {
+					document.getElementById("submitBtn").disabled = true;
+				}
+			} else {
+				if(!(document.getElementById("delayAlert").classList.contains("d-none"))) {
+					document.getElementById("delayAlert").classList.add("d-none");
+				}
+			}
+			
+			if(!minDelay || !maxDelay) {
+				if(document.getElementById("emptyAlert").classList.contains("d-none")) {
+					document.getElementById("emptyAlert").classList.remove("d-none");
+				}
+				if(!(document.getElementById("submitBtn").disabled)) {
+					document.getElementById("submitBtn").disabled = true;
+				}
+			} else {
+				if(!(document.getElementById("emptyAlert").classList.contains("d-none"))) {
+					document.getElementById("emptyAlert").classList.add("d-none");
+				}
+			}
+			
+			if(minDelay && maxDelay && minDelay < maxDelay && minDelay >= 1 && maxDelay >= 1) {
+				if(document.getElementById("submitBtn").disabled) {
+					document.getElementById("submitBtn").disabled = false;
+				}
+			}
+		}
+	  </script>
 
   </body>
 </html>

@@ -1,1 +1,19 @@
-@charset "utf-8";
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 100px; /* Margin bottom by footer height */
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 80px; /* Set the fixed height of the footer here */
+  line-height: 20px; /* Vertically center the text there */
+  background-color: #343A40;
+}
