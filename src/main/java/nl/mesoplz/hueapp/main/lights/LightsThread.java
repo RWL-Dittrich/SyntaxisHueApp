@@ -62,6 +62,7 @@ public class LightsThread {
 
                 } catch (IOException | HueException e) {
                     e.printStackTrace();
+                    running = false;
                 }
 
             });
