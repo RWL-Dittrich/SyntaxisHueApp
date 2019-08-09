@@ -17,3 +17,7 @@ body {
   line-height: 20px; /* Vertically center the text there */
   background-color: #343A40;
 }
+
+.buttonSize {
+	width: 100px !important
+}

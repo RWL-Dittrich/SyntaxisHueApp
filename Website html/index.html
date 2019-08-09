@@ -30,51 +30,55 @@
        <p class="lead">This website can be used to manage the Hue lights flow animation</p>
   </div>
     <div class="container">
-		<div class="row">
-			<div class="mx-auto">
-      			<form action="/hue/color" target="_self" method="POST">
-        			<div class="form-group">
-                        <label for="color1">Color 1:</label>
-						<input class="float-right jscolor {closable:true,closeText:'Close', hash:true}" th:value="${color1}" name="color1" id="color1">
-                    </div>
-					<div class="form-group">
-                        <label for="color2">Color 2:</label>
-                        <input class="float-right jscolor {closable:true,closeText:'Close', hash:true}" th:value="${color2}" name="color2" id="color2">
-                    </div>
-					<div class="form-group">
-                        <label for="color3">Color 3:</label>
-						<input class="float-right jscolor {closable:true,closeText:'Close', hash:true}" th:value="${color3}" name="color3" id="color3">
-					</div>
-                    <div class="form-group">
-                      <label for="min-delay">min-delay:</label>
-                      <input class="float-right" type="number" name="minDelay" id="min-delay" th:value="${minDelay}" oninput="updateAlert();">
-                    </div>
-                    <div class="form-group">
-                      <label for="max-delay">max-delay:</label>
-                      <input class="float-right" type="number" name="maxDelay" id="max-delay" th:value="${maxDelay}" oninput="updateAlert();">
-                    </div>
-					<div class="row d-none" id="delayAlert">
-						<div class="alert w-100 alert-danger" role="alert">
-							min-delay cannot be &gt;&#61; max-delay!
-						</div>
-					</div>
-					<div class="row d-none" id="emptyAlert">
-						<div class="alert w-100 alert-danger" role="alert">
-							min-delay or max-delay cannot be empty!
-						</div>
-					</div>
-		  			<div class="row justify-content-around">
-			  			<div class="col-6 text-center">
-        					<button type="submit" class="btn w-75 btn-primary m-1" id="submitBtn">Submit</button>
-			  			</div>
-			  			<div class="col-6 text-center">
-							<a class="btn w-75 btn-danger m-1" href="/hue/off">Off</a>
-			  			</div>
-		  			</div>
+    <div class="row justify-content-center">
+        <form action="/hue/color" class="col-6" target="_self" method="POST">
+            <div class="form-group">
+                <label for="color1">Color 1:</label>
+                <input class="form-control float-right jscolor {closable:true,closeText:'Close', hash:true}"
+                       th:value="${color1}" name="color1" id="color1">
+            </div>
+            <div class="form-group">
+                <label for="color2">Color 2:</label>
+                <input class="form-control float-right jscolor {closable:true,closeText:'Close', hash:true}"
+                       th:value="${color2}" name="color2" id="color2">
+            </div>
+            <div class="form-group">
+                <label for="color3">Color 3:</label>
+                <input class="form-control float-right jscolor {closable:true,closeText:'Close', hash:true}"
+                       th:value="${color3}" name="color3" id="color3">
+            </div>
+            <div class="form-group">
+                <label for="min-delay">min-delay:</label>
+                <input class="form-control float-right" type="number" name="minDelay" id="min-delay"
+                       th:value="${minDelay}" oninput="updateAlert();">
+            </div>
+            <div class="form-group">
+                <label for="max-delay">max-delay:</label>
+                <input class="form-control float-right" type="number" name="maxDelay" id="max-delay"
+                       th:value="${maxDelay}" oninput="updateAlert();">
+            </div>
+            <div class="row d-none" id="delayAlert">
+                <div class="alert w-100 alert-danger" role="alert">
+                    min-delay cannot be &gt;&#61; max-delay!
+                </div>
+            </div>
+            <div class="row d-none" id="emptyAlert">
+                <div class="alert w-100 alert-danger" role="alert">
+                    min-delay or max-delay cannot be empty!
+                </div>
+            </div>
+			<br>
+            <div class="row">
+                <div class="col-6 text-center">
+                    <button type="submit" class="btn w-50 btn-primary m-1" id="submitBtn">Submit</button>
+                </div>
+                <div class="col-6 text-center">
+                    <a class="btn w-50 btn-danger m-1" href="/hue/off">Off</a>
+                </div>
+            </div>
       			</form>
 			</div>
 		</div>
-    </div>
 
 	<footer class="footer page-footer blue">
 		<div class="container">

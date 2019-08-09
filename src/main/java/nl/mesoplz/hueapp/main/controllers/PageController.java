@@ -29,7 +29,19 @@ public class PageController {
         model.addAttribute("color3", c3);
         model.addAttribute("minDelay", minDelay);
         model.addAttribute("maxDelay", maxDelay);
+        model.addAttribute("running", lightsThread.isRunning());
         return "index";
+    }
+
+    @GetMapping("/credentials")
+    public String credentialsPage(Model model) {
+        String ip = lightsThread.getIp();
+        String user = lightsThread.getUser();
+
+        model.addAttribute("ip", ip);
+        model.addAttribute("user", user);
+        model.addAttribute("running", lightsThread.isRunning());
+        return "credentials";
     }
 
 }

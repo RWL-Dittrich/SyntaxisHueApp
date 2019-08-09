@@ -98,6 +98,10 @@ public class LightsThread {
         return maxDelay;
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
     public static void setIp(String ip) {
         LightsThread.ip = ip;
         try {
@@ -114,6 +118,14 @@ public class LightsThread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getIp() {
+        return ip;
+    }
+
+    public static String getUser() {
+        return user;
     }
 
     public static void loadConfig() {

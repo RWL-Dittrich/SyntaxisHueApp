@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/hue")
@@ -24,6 +25,19 @@ public class HueController {
             lightsThread.start(c1, c2, c3, minDelay, maxDelay);
         } catch (Exception e) {
             return "redirect:/";
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/credentials")
+    public String credentialsPost(String ip, String user) {
+        lightsThread.stop();
+        LightsThread.setIp(ip);
+        LightsThread.setUser(user);
+        try {
+            LightsThread.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return "redirect:/";
     }
