@@ -10,10 +10,14 @@ import java.util.ArrayList;
 
 public class LightsThread {
 
-    private Color c1 = Color.GREEN, c2 = Color.CYAN, c3 = Color.YELLOW;
-    private int minDelay = 50, maxDelay = 100;
+    private static Color c1 = Color.GREEN, c2 = Color.CYAN, c3 = Color.YELLOW;
+    private static int minDelay = 50, maxDelay = 100;
 
-    private static String ip = "localhost"; private static String user = "66986704230b2e75868416979af78fe"; //PC emulator hue
+
+    /**
+     * These Strings are only used if there is no config file in the application's folder (so a fallback)
+     */
+    private static String ip = "localhost", user = "66986704230b2e75868416979af78fe"; //PC emulator hue
 //        private static String ip = "192.168.137.1"; private static String user = "66986704230b2e75868416979af78fe"; //PC emulator hue from PI
 //        private static String ip = "192.168.1.102"; private static String user = "8f36bb73f410a65f044469ea5b645dca"; //home diyhue
 
