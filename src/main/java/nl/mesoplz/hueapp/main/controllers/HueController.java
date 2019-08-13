@@ -1,8 +1,8 @@
 package nl.mesoplz.hueapp.main.controllers;
 
 import nl.mesoplz.hueapp.main.lights.LightsThread;
+import nl.mesoplz.hueapp.main.timer.Scheduler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
@@ -39,7 +39,39 @@ public class HueController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/";
+        return "redirect:/credentials";
+    }
+
+    @PostMapping("/scheduler")
+    public String schedulerPost(String on, String off) {
+        Scheduler.updateTime(on, off);
+        //Wait a little bit for the LightsThread to restart if it needs to so the website displays the right status
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/scheduler";
+    }
+
+    @GetMapping("/schedule_start")
+    public String schedule_start() {
+        Scheduler.stopScheduler();
+        Scheduler.scheduleTasks();
+        //Wait a little bit for the LightsThread to restart if it needs to so the website displays the right status
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/scheduler";
+    }
+
+    @GetMapping("/schedule_stop")
+    public String schedule_stop() {
+        Scheduler.stopScheduler();
+        lightsThread.stop();
+        return "redirect:/scheduler";
     }
 
     @GetMapping("/off")

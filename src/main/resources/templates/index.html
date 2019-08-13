@@ -25,6 +25,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/credentials">Credentials</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/scheduler">Scheduler</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -33,9 +36,26 @@
     <h1 class="display-4">Syntaxis Hue App</h1>
     <p class="lead">This website can be used to manage the Hue lights flow animation</p>
     <hr class="my-4">
-    <p th:if="${running} == true">Flow is currently running!</p>
-    <p th:if="${running} == false">Flow is currently not running!</p>
-
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4 text-right">
+                <p>Animation: </p>
+            </div>
+            <div class="col-4 text-left">
+                <p th:if="${flowRunning} == true"><span class="dot-on align-middle"></span></p>
+                <p th:if="${flowRunning} == false"><span class="dot-off align-middle"></span></p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4 text-right">
+                <p>Scheduler: </p>
+            </div>
+            <div class="col-4 text-left">
+                <p th:if="${scheduleRunning} == true"><span class="dot-on align-middle"></span></p>
+                <p th:if="${scheduleRunning} == false"><span class="dot-off align-middle"></span></p>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container">
     <div class="row justify-content-center">

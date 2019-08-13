@@ -6,12 +6,12 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 
-public class Light {
+class Light {
 
-    public HueLight light;
+    private HueLight light;
 
     private Color c1, c2, c3;
-    private int counter = 0;
+    private int counter;
 
     private int toCountTo;
     private int maxDuration;
@@ -19,7 +19,7 @@ public class Light {
 
     private int currentColor = 0;
 
-    public Light(HueLight light, Color c1, Color c2, Color c3, int minDuration, int maxDuration) {
+    Light(HueLight light, Color c1, Color c2, Color c3, int minDuration, int maxDuration) {
         this.light = light;
         this.c1 = c1;
         this.c2 = c2;
@@ -30,7 +30,7 @@ public class Light {
         counter = toCountTo;
     }
 
-    public void tick() throws IOException {
+    void tick() throws IOException {
         counter++;
         if (counter >= toCountTo) {
             counter = 0;

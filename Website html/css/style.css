@@ -21,3 +21,19 @@ body {
 .buttonSize {
 	width: 100px !important
 }
+
+.dot-off {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-on {
+  height: 25px;
+  width: 25px;
+  background-color: #00ff00;
+  border-radius: 50%;
+  display: inline-block;
+}

@@ -31,11 +31,11 @@ public class LightsThread {
     public void start(Color c1, Color c2, Color c3, int minDelay, int maxDelay) throws Exception {
 
         //Update the stored colors
-        this.c1 = c1;
-        this.c2 = c2;
-        this.c3 = c3;
-        this.minDelay = minDelay;
-        this.maxDelay = maxDelay;
+        LightsThread.c1 = c1;
+        LightsThread.c2 = c2;
+        LightsThread.c3 = c3;
+        LightsThread.minDelay = minDelay;
+        LightsThread.maxDelay = maxDelay;
         if (!running) {
             running = true;
             Thread thread = new Thread(() -> {
