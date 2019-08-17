@@ -60,20 +60,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <form action="/hue/color" class="col-6" target="_self" method="POST">
-            <div class="form-group">
-                <label for="color1">Color 1:</label>
+            <div class="form-group" th:each="color, iter : ${colors}">
+                <label th:text="'Color ' + (${iter.index}+1) + ':'">Color :</label>
                 <input class="form-control float-right jscolor {closable:true,closeText:'Close', hash:true}"
-                       th:value="${color1}" name="color1" id="color1">
-            </div>
-            <div class="form-group">
-                <label for="color2">Color 2:</label>
-                <input class="form-control float-right jscolor {closable:true,closeText:'Close', hash:true}"
-                       th:value="${color2}" name="color2" id="color2">
-            </div>
-            <div class="form-group">
-                <label for="color3">Color 3:</label>
-                <input class="form-control float-right jscolor {closable:true,closeText:'Close', hash:true}"
-                       th:value="${color3}" name="color3" id="color3">
+                       th:value="${color.hexColor}" name="color" th:id="'color'+${iter.index}">
             </div>
             <div class="form-group">
                 <label for="min-delay">min-delay:</label>
@@ -85,6 +75,7 @@
                 <input class="form-control float-right" type="number" name="maxDelay" id="max-delay"
                        th:value="${maxDelay}" oninput="updateAlert();">
             </div>
+            <br>
             <div class="row d-none" id="delayAlert">
                 <div class="alert w-100 alert-danger" role="alert">
                     min-delay cannot be &gt;&#61; max-delay!
@@ -97,11 +88,22 @@
             </div>
             <br>
             <div class="row justify-content-center">
+                <div class="col-4 text-center">
+                    <button type="submit" class="btn btn-info m-1 pl-3 pr-3" id="submitBtn">Save</button>
+                </div>
+                <div class="col-4 text-center">
+                    <a class="btn btn-primary m-1 pl-3 pr-3" href="/hue/on">Start</a>
+                </div>
+                <div class="col-4 text-center">
+                    <a class="btn btn-danger m-1 pl-3 pr-3" href="/hue/off">Stop</a>
+                </div>
+            </div>
+            <div class="row justify-content-center">
                 <div class="col-5 text-center">
-                    <button type="submit" class="btn btn-primary m-1 pl-3 pr-3" id="submitBtn">Start</button>
+                    <a class="btn btn-success m-1 pl-3 pr-3" href="/hue/color/add">Add color</a>
                 </div>
                 <div class="col-5 text-center">
-                    <a class="btn btn-danger m-1 pl-3 pr-3" href="/hue/off">Stop</a>
+                    <a class="btn btn-success m-1 pl-3 pr-3" href="/hue/color/remove">Remove color</a>
                 </div>
             </div>
         </form>

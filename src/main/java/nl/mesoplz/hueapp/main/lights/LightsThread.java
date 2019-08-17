@@ -7,11 +7,12 @@ import nl.mesoplz.hue.models.HueLight;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LightsThread {
 
-    private static Color c1 = Color.GREEN, c2 = Color.CYAN, c3 = Color.YELLOW;
-    private static int minDelay = 50, maxDelay = 100;
+    private ArrayList<mColor> mColors = new ArrayList<>(Arrays.asList(new mColor(Color.GREEN), new mColor(Color.CYAN), new mColor(Color.YELLOW)));
+    private Delays delays = new Delays();
 
 
     /**
@@ -24,18 +25,7 @@ public class LightsThread {
 
     private boolean running = false;
 
-    public void start() throws Exception {
-        start(c1, c2, c3, minDelay, maxDelay);
-    }
-
-    public void start(Color c1, Color c2, Color c3, int minDelay, int maxDelay) throws Exception {
-
-        //Update the stored colors
-        LightsThread.c1 = c1;
-        LightsThread.c2 = c2;
-        LightsThread.c3 = c3;
-        LightsThread.minDelay = minDelay;
-        LightsThread.maxDelay = maxDelay;
+    public void start() {
         if (!running) {
             running = true;
             Thread thread = new Thread(() -> {
@@ -46,7 +36,7 @@ public class LightsThread {
                     //Store all the lights in the hue bridge in a ArrayList of custom Light objects. This object has a tick method
                     for (HueLight light : bridge.getLights()) {
                         light.setPower(true);
-                        lights.add(new Light(light, c1, c2, c3, minDelay, maxDelay));
+                        lights.add(new Light(light, mColors, delays));
                     }
                     while (running) {
                         try {
@@ -54,7 +44,9 @@ public class LightsThread {
                                 light.tick();
                             }
                             Thread.sleep(100);
-                        } catch (IOException | InterruptedException e) {
+                        } catch (IOException e) {
+                            System.out.println("Something went wrong when connecting to the light: " + e.getMessage());
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
@@ -74,8 +66,12 @@ public class LightsThread {
         } else {
             running = false;
             //Wait for other thread to finish its tick method. Then start a new one
-            Thread.sleep(150);
-            start(c1, c2, c3, minDelay, maxDelay);
+            try {
+                Thread.sleep(150);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            start();
         }
     }
 
@@ -83,24 +79,28 @@ public class LightsThread {
         running = false;
     }
 
-    public Color getC1() {
-        return c1;
+    public ArrayList<mColor> getmColors() {
+        return mColors;
     }
 
-    public Color getC2() {
-        return c2;
+    public void setmColors(ArrayList<mColor> mColors) {
+        this.mColors = mColors;
     }
 
-    public Color getC3() {
-        return c3;
+    public void setMinDelay(int minDelay) {
+        this.delays.minDelay = minDelay;
+    }
+
+    public void setMaxDelay(int maxDelay) {
+        this.delays.maxDelay = maxDelay;
     }
 
     public int getMinDelay() {
-        return minDelay;
+        return delays.minDelay;
     }
 
     public int getMaxDelay() {
-        return maxDelay;
+        return delays.maxDelay;
     }
 
     public boolean isRunning() {

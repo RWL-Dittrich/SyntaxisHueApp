@@ -2,31 +2,27 @@ package nl.mesoplz.hueapp.main.lights;
 
 import nl.mesoplz.hue.models.HueLight;
 
-import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 class Light {
 
     private HueLight light;
 
-    private Color c1, c2, c3;
+    private ArrayList<mColor> mColors;
     private int counter;
 
     private int toCountTo;
-    private int maxDuration;
-    private int minDuration;
+    private Delays delays;
 
     private int currentColor = 0;
 
-    Light(HueLight light, Color c1, Color c2, Color c3, int minDuration, int maxDuration) {
+    Light(HueLight light, ArrayList<mColor> mColors, Delays delays) {
         this.light = light;
-        this.c1 = c1;
-        this.c2 = c2;
-        this.c3 = c3;
-        this.minDuration = minDuration;
-        this.maxDuration = maxDuration;
-        toCountTo = randomBetweenBounds(minDuration, maxDuration);
+        this.mColors = mColors;
+        this.delays = delays;
+        toCountTo = randomBetweenBounds(delays.minDelay, delays.maxDelay);
         counter = toCountTo;
     }
 
@@ -34,23 +30,15 @@ class Light {
         counter++;
         if (counter >= toCountTo) {
             counter = 0;
-            toCountTo = randomBetweenBounds(minDuration, maxDuration);
+            toCountTo = randomBetweenBounds(delays.minDelay, delays.maxDelay);
 
-            currentColor = selectNewRandomColor();
+            java.awt.Color nextColor = selectRandomColor();
 
-            switch(currentColor) {
-                case(1):
-                    light.setRGB(c1.getRed(), c1.getGreen(), c1.getBlue(), toCountTo);
-                    break;
-                case(2):
-                    light.setRGB(c2.getRed(), c2.getGreen(), c2.getBlue(), toCountTo);
-                    break;
-                case(3):
-                    light.setRGB(c3.getRed(), c3.getGreen(), c3.getBlue(), toCountTo);
-                    break;
-            }
+            light.setRGB(nextColor.getRed(), nextColor.getGreen(), nextColor.getBlue());
+
         }
     }
+
 
     private int randomBetweenBounds(int minimum, int maximum) {
         Random rn = new Random();
@@ -58,16 +46,11 @@ class Light {
         return rn.nextInt(range) + minimum;
     }
 
-    private int selectNewRandomColor() {
+    private java.awt.Color selectRandomColor() {
         Random rn = new Random();
-        int range = 3 - 1 + 1;
-        int random = rn.nextInt(range) + 1;
-
-        while(random == currentColor) {
-            random = rn.nextInt(range) + 1;
-        }
-        return random;
+        return mColors.get(rn.nextInt(mColors.size())).getColor();
     }
+
 
 
 }

@@ -12,6 +12,8 @@ public class Scheduler {
     private static Timer timer = new Timer();
     private static boolean running = false;
 
+    private static boolean excludeWeekends = true;
+
     private static int turnOnHour = 8;
     private static int turnOnMinute = 0;
 
@@ -28,6 +30,7 @@ public class Scheduler {
         turnOffHour = Integer.parseInt(offTimeSplit[0]);
         turnOffMinute = Integer.parseInt(offTimeSplit[1]);
 
+        HueController.lightsThread.stop();
         stopScheduler();
         scheduleTasks();
     }
@@ -82,8 +85,10 @@ public class Scheduler {
     private static Calendar getDate(int hourOfDay, int minutesOfHour, boolean tomorrow){
         Calendar date = new GregorianCalendar();
         if (tomorrow) date.add(Calendar.DATE, 1);
-        while (date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-            date.add(Calendar.DATE, 1);
+        if (excludeWeekends) {
+            while (date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                date.add(Calendar.DATE, 1);
+            }
         }
         return new GregorianCalendar(
                 date.get(Calendar.YEAR),
@@ -124,5 +129,13 @@ public class Scheduler {
 
     public static boolean isRunning() {
         return running;
+    }
+
+    public static boolean getExcludeWeekends() {
+        return excludeWeekends;
+    }
+
+    public static void setExcludeWeekends(boolean excludeWeekends) {
+        Scheduler.excludeWeekends = excludeWeekends;
     }
 }

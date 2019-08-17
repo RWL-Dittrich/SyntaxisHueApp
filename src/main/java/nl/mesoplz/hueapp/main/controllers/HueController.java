@@ -1,12 +1,16 @@
 package nl.mesoplz.hueapp.main.controllers;
 
 import nl.mesoplz.hueapp.main.lights.LightsThread;
+import nl.mesoplz.hueapp.main.lights.mColor;
 import nl.mesoplz.hueapp.main.timer.Scheduler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("/hue")
@@ -15,16 +19,38 @@ public class HueController {
     public static LightsThread lightsThread = new LightsThread();
 
     @PostMapping("/color")
-    public String colorPost(String color1, String color2, String color3, int minDelay, int maxDelay) {
-        System.out.println(color1 + " | " + color2 + " | " + color3);
-        Color c1 = Color.decode(color1);
-        Color c2 = Color.decode(color2);
-        Color c3 = Color.decode(color3);
+    public String colorPost(int minDelay, int maxDelay, String[] color) {
+        System.out.println(minDelay + " : " + maxDelay);
+        System.out.println(Arrays.toString(color) + " : " + color.length);
 
-        try {
-            lightsThread.start(c1, c2, c3, minDelay, maxDelay);
-        } catch (Exception e) {
-            return "redirect:/";
+        ArrayList<mColor> mColors = new ArrayList<>();
+
+        for (String s : color) {
+            mColors.add(new mColor(Color.decode(s)));
+        }
+        lightsThread.getmColors().clear();
+        lightsThread.getmColors().addAll(mColors);
+        lightsThread.setMinDelay(minDelay);
+        lightsThread.setMaxDelay(maxDelay);
+        for (String s : color) {
+            mColors.add(new mColor(Color.decode(s)));
+        }
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/color/add")
+    public String addColor() {
+        if (lightsThread.getmColors().size() < 10) {
+            lightsThread.getmColors().add(new mColor(Color.GREEN));
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/color/remove")
+    public String removeColor() {
+        if (lightsThread.getmColors().size() > 1) {
+            lightsThread.getmColors().remove(lightsThread.getmColors().size()-1);
         }
         return "redirect:/";
     }
@@ -43,7 +69,8 @@ public class HueController {
     }
 
     @PostMapping("/scheduler")
-    public String schedulerPost(String on, String off) {
+    public String schedulerPost(String on, String off, boolean excludeWeekend) {
+        Scheduler.setExcludeWeekends(excludeWeekend);
         Scheduler.updateTime(on, off);
         //Wait a little bit for the LightsThread to restart if it needs to so the website displays the right status
         try {
@@ -56,6 +83,7 @@ public class HueController {
 
     @GetMapping("/schedule_start")
     public String schedule_start() {
+        lightsThread.stop();
         Scheduler.stopScheduler();
         Scheduler.scheduleTasks();
         //Wait a little bit for the LightsThread to restart if it needs to so the website displays the right status
@@ -77,6 +105,12 @@ public class HueController {
     @GetMapping("/off")
     public String turnOff() {
         lightsThread.stop();
+        return "redirect:/";
+    }
+
+    @GetMapping("/on")
+    public String turnOn() {
+        lightsThread.start();
         return "redirect:/";
     }
 }
