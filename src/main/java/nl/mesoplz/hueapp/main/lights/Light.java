@@ -34,7 +34,7 @@ class Light {
 
             java.awt.Color nextColor = selectRandomColor();
 
-            light.setRGB(nextColor.getRed(), nextColor.getGreen(), nextColor.getBlue());
+            light.setRGB(nextColor.getRed(), nextColor.getGreen(), nextColor.getBlue(), toCountTo);
 
         }
     }
