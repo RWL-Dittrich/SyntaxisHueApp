@@ -3,7 +3,6 @@ package nl.mesoplz.hueapp.main.config;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import nl.mesoplz.hueapp.main.lights.LightsThread;
 import nl.mesoplz.hueapp.main.timer.Scheduler;
 
