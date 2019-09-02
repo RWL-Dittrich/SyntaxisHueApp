@@ -15,10 +15,10 @@ public class PageController {
     @GetMapping("/")
     public String colorPage(Model model) {
 
-        int minDelay = lightsThread.getMinDelay();
-        int maxDelay = lightsThread.getMaxDelay();
+        int minDelay = LightsThread.getMinDelay();
+        int maxDelay = LightsThread.getMaxDelay();
 
-        model.addAttribute("colors", lightsThread.getmColors());
+        model.addAttribute("colors", LightsThread.getMColors());
         model.addAttribute("minDelay", minDelay);
         model.addAttribute("maxDelay", maxDelay);
         model.addAttribute("flowRunning", lightsThread.isRunning());

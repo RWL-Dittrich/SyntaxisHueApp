@@ -1,14 +1,14 @@
 package nl.mesoplz.hueapp.main.controllers;
 
+import nl.mesoplz.hueapp.main.config.ConfigLoader;
 import nl.mesoplz.hueapp.main.lights.LightsThread;
-import nl.mesoplz.hueapp.main.lights.mColor;
+import nl.mesoplz.hueapp.main.lights.MColor;
 import nl.mesoplz.hueapp.main.timer.Scheduler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,34 +23,48 @@ public class HueController {
         System.out.println(minDelay + " : " + maxDelay);
         System.out.println(Arrays.toString(color) + " : " + color.length);
 
-        ArrayList<mColor> mColors = new ArrayList<>();
+        ArrayList<MColor> MColors = new ArrayList<>();
 
         for (String s : color) {
-            mColors.add(new mColor(Color.decode(s)));
+            MColors.add(new MColor(Color.decode(s)));
         }
-        lightsThread.getmColors().clear();
-        lightsThread.getmColors().addAll(mColors);
-        lightsThread.setMinDelay(minDelay);
-        lightsThread.setMaxDelay(maxDelay);
+        LightsThread.getMColors().clear();
+        LightsThread.getMColors().addAll(MColors);
+        LightsThread.setMinDelay(minDelay);
+        LightsThread.setMaxDelay(maxDelay);
         for (String s : color) {
-            mColors.add(new mColor(Color.decode(s)));
+            MColors.add(new MColor(Color.decode(s)));
         }
-
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "redirect:/";
     }
 
     @GetMapping("/color/add")
     public String addColor() {
-        if (lightsThread.getmColors().size() < 10) {
-            lightsThread.getmColors().add(new mColor(Color.GREEN));
+        if (LightsThread.getMColors().size() < 10) {
+            LightsThread.getMColors().add(new MColor(Color.GREEN));
+        }
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return "redirect:/";
     }
 
     @GetMapping("/color/remove")
     public String removeColor() {
-        if (lightsThread.getmColors().size() > 1) {
-            lightsThread.getmColors().remove(lightsThread.getmColors().size()-1);
+        if (LightsThread.getMColors().size() > 1) {
+            LightsThread.getMColors().remove(LightsThread.getMColors().size()-1);
+        }
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return "redirect:/";
     }
@@ -61,7 +75,7 @@ public class HueController {
         LightsThread.setIp(ip);
         LightsThread.setUser(user);
         try {
-            LightsThread.updateConfig();
+            ConfigLoader.updateConfig();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,6 +92,11 @@ public class HueController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "redirect:/scheduler";
     }
 
@@ -90,6 +109,11 @@ public class HueController {
         try {
             Thread.sleep(150);
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return "redirect:/scheduler";

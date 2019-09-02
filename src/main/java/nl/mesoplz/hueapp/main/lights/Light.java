@@ -10,7 +10,7 @@ class Light {
 
     private HueLight light;
 
-    private ArrayList<mColor> mColors;
+    private ArrayList<MColor> MColors;
     private int counter;
 
     private int toCountTo;
@@ -18,9 +18,9 @@ class Light {
 
     private int currentColor = 0;
 
-    Light(HueLight light, ArrayList<mColor> mColors, Delays delays) {
+    Light(HueLight light, ArrayList<MColor> MColors, Delays delays) {
         this.light = light;
-        this.mColors = mColors;
+        this.MColors = MColors;
         this.delays = delays;
         toCountTo = randomBetweenBounds(delays.minDelay, delays.maxDelay);
         counter = toCountTo;
@@ -34,7 +34,7 @@ class Light {
 
             java.awt.Color nextColor = selectRandomColor();
 
-            light.setRGB(nextColor.getRed(), nextColor.getGreen(), nextColor.getBlue(), toCountTo);
+            light.setRGB(nextColor.getRed(), nextColor.getGreen(), nextColor.getBlue(), toCountTo;
 
         }
     }
@@ -48,7 +48,7 @@ class Light {
 
     private java.awt.Color selectRandomColor() {
         Random rn = new Random();
-        return mColors.get(rn.nextInt(mColors.size())).getColor();
+        return MColors.get(rn.nextInt(MColors.size())).getColor();
     }
 
 

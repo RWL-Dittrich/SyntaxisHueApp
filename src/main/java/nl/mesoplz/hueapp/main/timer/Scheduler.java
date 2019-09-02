@@ -1,7 +1,9 @@
 package nl.mesoplz.hueapp.main.timer;
 
+import nl.mesoplz.hueapp.main.config.ConfigLoader;
 import nl.mesoplz.hueapp.main.controllers.HueController;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Timer;
@@ -137,5 +139,21 @@ public class Scheduler {
 
     public static void setExcludeWeekends(boolean excludeWeekends) {
         Scheduler.excludeWeekends = excludeWeekends;
+    }
+
+    public static void setTurnOnHour(int turnOnHour) {
+        Scheduler.turnOnHour = turnOnHour;
+    }
+
+    public static void setTurnOnMinute(int turnOnMinute) {
+        Scheduler.turnOnMinute = turnOnMinute;
+    }
+
+    public static void setTurnOffHour(int turnOffHour) {
+        Scheduler.turnOffHour = turnOffHour;
+    }
+
+    public static void setTurnOffMinute(int turnOffMinute) {
+        Scheduler.turnOffMinute = turnOffMinute;
     }
 }

@@ -1,10 +1,10 @@
 package nl.mesoplz.hueapp.main.lights;
 
-public class mColor {
+public class MColor {
 
     private java.awt.Color color;
 
-    public mColor(java.awt.Color color) {
+    public MColor(java.awt.Color color) {
         this.color = color;
     }
 
