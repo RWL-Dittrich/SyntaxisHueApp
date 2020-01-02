@@ -59,11 +59,12 @@
 </div>
 <div class="container">
     <div class="row justify-content-center">
-        <form action="/hue/color" class="col-6" target="_self" method="POST">
+        <form action="/hue/color" class="col-10" target="_self" method="POST">
             <div class="form-group" th:each="color, iter : ${colors}">
                 <label th:text="'Color ' + (${iter.index}+1) + ':'">Color :</label>
                 <input class="form-control float-right jscolor {closable:true,closeText:'Close', hash:true}"
-                       th:value="${color.hexColor}" name="color" th:id="'color'+${iter.index}">
+                       th:value="${color.hexColor}" name="color" th:id="'color'+${iter.index}"
+                       th:onchange="'update(this.jscolor, ' + ${iter.index} +')'">
             </div>
             <div class="form-group">
                 <label for="min-delay">min-delay:</label>
@@ -88,13 +89,10 @@
             </div>
             <br>
             <div class="row justify-content-center">
-                <div class="col-4 text-center">
-                    <button type="submit" class="btn btn-info m-1 pl-3 pr-3" id="submitBtn">Save</button>
-                </div>
-                <div class="col-4 text-center">
+                <div class="col-5 text-center">
                     <a class="btn btn-primary m-1 pl-3 pr-3" href="/hue/on">Start</a>
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-5 text-center">
                     <a class="btn btn-danger m-1 pl-3 pr-3" href="/hue/off">Stop</a>
                 </div>
             </div>
@@ -107,6 +105,27 @@
                 </div>
             </div>
         </form>
+    </div>
+    <hr>
+    <div class="text-center">
+        <h3>New Theme</h3>
+    </div>
+    <form action="/hue/themes/add" class="row justify-content-center" target="_self" method="POST">
+        <div class="col-4">
+            <input class="form-control float-right" type="text" name="name" placeholder="Theme name"/>
+        </div>
+        <div class="col-4 my-auto text-center">
+            <button class="btn btn-info m-1 pl-3 pr-3" type="submit">Save</button>
+        </div>
+    </form>
+    <hr>
+    <div class="row justify-content-center" th:each="theme, iter : ${themes}">
+        <div class="col-5 text-center my-auto overflow-hidden"><h5 th:text="${theme.name}">Theme</h5></div>
+        <div class="col-5 text-center my-auto">
+            <a class="btn btn-primary m-1 pl-3 pr-3" th:href="'/hue/themes/load/' + ${iter.index}">Load</a>
+            <a class="btn btn-info m-1 pl-3 pr-3" th:href="'/hue/themes/save/' + ${iter.index}">Save</a>
+            <a class="btn btn-danger m-1 pl-3 pr-3" th:href="'/hue/themes/remove/' + ${iter.index}">Delete</a>
+        </div>
     </div>
 </div>
 
@@ -127,17 +146,25 @@
 <!-- Extra js files -->
 <script src="/js/jscolor.js"></script>
 
-<script>
+<script th:inline="javascript">
+    let colors = [];
+    /*[# th:each="n : ${colors}"]*/
+    colors.push("#[(${n.hexColor})]");
+
+    /*[/]*/
+    function update(jscolor, index) {
+        colors[index] = "#" + jscolor.toString();
+        console.log(colors);
+        updateAlert();
+    }
+
     function updateAlert() {
-        var minDelay = parseInt(document.getElementById("min-delay").value);
-        var maxDelay = parseInt(document.getElementById("max-delay").value);
+        let minDelay = parseInt(document.getElementById("min-delay").value);
+        let maxDelay = parseInt(document.getElementById("max-delay").value);
 
         if (minDelay >= maxDelay || minDelay < 1 || maxDelay < 1) {
             if (document.getElementById("delayAlert").classList.contains("d-none")) {
                 document.getElementById("delayAlert").classList.remove("d-none");
-            }
-            if (!(document.getElementById("submitBtn").disabled)) {
-                document.getElementById("submitBtn").disabled = true;
             }
         } else {
             if (!(document.getElementById("delayAlert").classList.contains("d-none"))) {
@@ -149,9 +176,6 @@
             if (document.getElementById("emptyAlert").classList.contains("d-none")) {
                 document.getElementById("emptyAlert").classList.remove("d-none");
             }
-            if (!(document.getElementById("submitBtn").disabled)) {
-                document.getElementById("submitBtn").disabled = true;
-            }
         } else {
             if (!(document.getElementById("emptyAlert").classList.contains("d-none"))) {
                 document.getElementById("emptyAlert").classList.add("d-none");
@@ -159,9 +183,17 @@
         }
 
         if (minDelay && maxDelay && minDelay < maxDelay && minDelay >= 1 && maxDelay >= 1) {
-            if (document.getElementById("submitBtn").disabled) {
-                document.getElementById("submitBtn").disabled = false;
-            }
+            //Successful inputs
+            let data = new FormData();
+            data.append('minDelay', minDelay);
+            data.append('maxDelay', maxDelay);
+            data.append('color', colors);
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '/hue/color', true);
+            xhr.onload = function () {
+                console.log(this.responseText);
+            };
+            xhr.send(data);
         }
     }
 </script>

@@ -17,6 +17,7 @@ public class MainApplication {
 		SpringApplication.run(MainApplication.class, args);
 		try {
 			ConfigLoader.loadConfig();
+			System.out.println("Config loaded!");
 		} catch (IOException | JsonSyntaxException e) {
 			File config = new File("config.json");
 			try {

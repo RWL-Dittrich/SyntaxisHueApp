@@ -1,5 +1,6 @@
 package nl.mesoplz.hueapp.main.controllers;
 
+import javafx.scene.effect.Light;
 import nl.mesoplz.hueapp.main.lights.LightsThread;
 import nl.mesoplz.hueapp.main.timer.Scheduler;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ public class PageController {
         int maxDelay = LightsThread.getMaxDelay();
 
         model.addAttribute("colors", LightsThread.getMColors());
+        model.addAttribute("themes", LightsThread.getThemes());
         model.addAttribute("minDelay", minDelay);
         model.addAttribute("maxDelay", maxDelay);
         model.addAttribute("flowRunning", lightsThread.isRunning());

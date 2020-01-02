@@ -15,13 +15,19 @@ public class LightsThread {
     private static ArrayList<MColor> MColors = new ArrayList<>(Arrays.asList(new MColor(Color.GREEN), new MColor(Color.CYAN), new MColor(Color.YELLOW)));
     private static Delays delays = new Delays();
 
+    private static ArrayList<Theme> themes = new ArrayList<>();
+
+    static {
+        themes.add(new Theme("Theme 1", new ArrayList<>(Arrays.asList(new MColor(Color.GREEN), new MColor(Color.CYAN), new MColor(Color.YELLOW)))));
+    }
 
     /**
      * These Strings are only used if there is no config file in the application's folder (so a fallback)
      */
 //    private static String ip = "localhost", user = "66986704230b2e75868416979af78fe"; //PC emulator hue
 //        private static String ip = "192.168.137.1"; private static String user = "66986704230b2e75868416979af78fe"; //PC emulator hue from PI
-        private static String ip = "192.168.1.102"; private static String user = "8f36bb73f410a65f044469ea5b645dca"; //home diyhue
+    private static String ip = "192.168.1.102";
+    private static String user = "8f36bb73f410a65f044469ea5b645dca"; //home diyhue
 
 
     private boolean running = false;
@@ -86,6 +92,22 @@ public class LightsThread {
 
     public static void setMColors(ArrayList<MColor> MColors) {
         LightsThread.MColors = MColors;
+    }
+
+    public static ArrayList<Theme> getThemes() {
+        return themes;
+    }
+
+    public static void setThemes(ArrayList<Theme> themes) {
+        LightsThread.themes = themes;
+    }
+
+    public static void addTheme(String name) {
+        ArrayList<MColor> themeColors = new ArrayList<>();
+        for(MColor color : MColors) {
+            themeColors.add(new MColor(color.getColor()));
+        }
+        themes.add(new Theme(name, themeColors));
     }
 
     public static void setDelays(Delays delays) {

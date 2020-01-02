@@ -1,5 +1,6 @@
 package nl.mesoplz.hueapp.main.controllers;
 
+import javafx.scene.effect.Light;
 import nl.mesoplz.hueapp.main.config.ConfigLoader;
 import nl.mesoplz.hueapp.main.lights.LightsThread;
 import nl.mesoplz.hueapp.main.lights.MColor;
@@ -19,6 +20,7 @@ public class HueController {
     public static LightsThread lightsThread = new LightsThread();
 
     @PostMapping("/color")
+    @ResponseBody
     public String colorPost(int minDelay, int maxDelay, String[] color) {
         System.out.println(minDelay + " : " + maxDelay);
         System.out.println(Arrays.toString(color) + " : " + color.length);
@@ -40,7 +42,7 @@ public class HueController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/";
+        return "success!";
     }
 
     @GetMapping("/color/add")
@@ -135,6 +137,58 @@ public class HueController {
     @GetMapping("/on")
     public String turnOn() {
         lightsThread.start();
+        return "redirect:/";
+    }
+
+    @GetMapping("/themes/load/{id}")
+    public String loadTheme(@PathVariable int id) {
+        ArrayList<MColor> themeColors = new ArrayList<>();
+        for(MColor color : LightsThread.getThemes().get(id).getThemeColors()) {
+            themeColors.add(new MColor(color.getColor()));
+        }
+        LightsThread.setMColors(themeColors);
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/themes/save/{id}")
+    public String saveToTheme(@PathVariable int id) {
+        ArrayList<MColor> themeColors = new ArrayList<>();
+        for(MColor color : LightsThread.getMColors()) {
+            themeColors.add(new MColor(color.getColor()));
+        }
+        LightsThread.getThemes().get(id).setThemeColors(themeColors);
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/themes/remove/{id}")
+    public String removeTheme(@PathVariable int id) {
+        LightsThread.getThemes().remove(id);
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/themes/add")
+    public String addTheme(String name) {
+        LightsThread.addTheme(name);
+        try {
+            ConfigLoader.updateConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "redirect:/";
     }
 }

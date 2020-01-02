@@ -25,6 +25,7 @@ public class ConfigLoader {
             LightsThread.setIp(configObject.getIp());
             LightsThread.setUser(configObject.getUser());
             LightsThread.setMColors(configObject.getMColors());
+            LightsThread.setThemes(configObject.getThemes());
             LightsThread.setDelays(configObject.getDelays());
             Scheduler.setTurnOnHour(configObject.getTurnOnHour());
             Scheduler.setTurnOnMinute(configObject.getTurnOnMinute());
@@ -42,7 +43,7 @@ public class ConfigLoader {
 
     public static void updateConfig() throws IOException {
         Gson gson = new Gson();
-        ConfigObject configObject = new ConfigObject(LightsThread.getIp(), LightsThread.getUser(), LightsThread.getMColors(), LightsThread.getDelays(), Scheduler.getTurnOnHour(), Scheduler.getTurnOnMinute(), Scheduler.getTurnOffHour(), Scheduler.getTurnOffMinute(), Scheduler.getExcludeWeekends());
+        ConfigObject configObject = new ConfigObject(LightsThread.getIp(), LightsThread.getUser(), LightsThread.getMColors(), LightsThread.getThemes(), LightsThread.getDelays(), Scheduler.getTurnOnHour(), Scheduler.getTurnOnMinute(), Scheduler.getTurnOffHour(), Scheduler.getTurnOffMinute(), Scheduler.getExcludeWeekends());
         String jsonString = gson.toJson(configObject);
         FileWriter fw = new FileWriter("config.json");
         fw.write(jsonString);
