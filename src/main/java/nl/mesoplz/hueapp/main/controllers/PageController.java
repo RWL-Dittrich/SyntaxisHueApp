@@ -1,6 +1,5 @@
 package nl.mesoplz.hueapp.main.controllers;
 
-import javafx.scene.effect.Light;
 import nl.mesoplz.hueapp.main.lights.LightsThread;
 import nl.mesoplz.hueapp.main.timer.Scheduler;
 import org.springframework.stereotype.Controller;

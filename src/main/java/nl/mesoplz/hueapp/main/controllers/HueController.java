@@ -1,6 +1,5 @@
 package nl.mesoplz.hueapp.main.controllers;
 
-import javafx.scene.effect.Light;
 import nl.mesoplz.hueapp.main.config.ConfigLoader;
 import nl.mesoplz.hueapp.main.lights.LightsThread;
 import nl.mesoplz.hueapp.main.lights.MColor;
@@ -146,7 +145,8 @@ public class HueController {
         for(MColor color : LightsThread.getThemes().get(id).getThemeColors()) {
             themeColors.add(new MColor(color.getColor()));
         }
-        LightsThread.setMColors(themeColors);
+        LightsThread.getMColors().clear();
+        LightsThread.getMColors().addAll(themeColors);
         try {
             ConfigLoader.updateConfig();
         } catch (IOException e) {
